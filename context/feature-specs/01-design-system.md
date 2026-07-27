@@ -1,9 +1,11 @@
-Read 'AGENTS.md
-we're adding the design system and UI primitive components.
+Read `AGENTS.md` and `context/ui-context.md` before starting.
 
-Install and configure 'shadcn/ui'
+We're adding the design system and UI primitive components.
+
+Install and configure `shadcn/ui`.
 
 Add these shadcn components:
+
 - Button
 - Card
 - Dialog
@@ -11,16 +13,17 @@ Add these shadcn components:
 - Tabs
 - Textarea
 - ScrollArea
- 
-Do not modify the generated 'components/ui/*' files after installation.
 
-Aslo Install 'lucide-react'
+Do not modify the generated `components/ui/*` files after installation.
 
-Create 'lib/utils.ts' with a reusable 'cn()' helper for merging Tailwind classes.
+Also Install `lucide-react`.
 
-Ensure all components match the existing dark theme in 'global.css'.
+Create `lib/utils.ts` with a reusable `cn()` helper for merging Tailwind classes.
+
+Ensure all components match the existing dark theme in `globals.css`.
 
 ### Check when done
-- All components import witout errors
-- 'cn()' works properly
-- No defualt light styling appears
+
+- All components import without errors
+- `cn()` works properly
+- No default light styling appears
