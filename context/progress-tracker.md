@@ -4,11 +4,11 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Current Phase
 
-- Design system setup
+- Editor chrome shell
 
 ## Current Goal
 
-- Define the immediate implementation goal here.
+- Build the base editor chrome (`context/feature-specs/02-editor-chrome.md`), then move to project dialogs / editor home wiring (`context/feature-specs/04-project-dialogs.md`).
 
 ## Completed
 
@@ -21,13 +21,19 @@ Update this file whenever the current phase, active feature, or implementation s
   - `app/layout.tsx`: added a permanent `dark` class on `<html>` since the app is dark-only (no theme toggle), which also activates the `dark:` variant refinements baked into the generated `components/ui/*` files.
   - Verified: clean `tsc` type-check (ignoring one pre-existing, unrelated stray global `@types/testing-library__jest-dom` package outside the repo), and a temporary smoke-test page importing all 7 components rendered with no errors and the correct dark palette in compiled CSS.
 
+- Editor chrome (`context/feature-specs/02-editor-chrome.md`):
+  - `components/editor/editor-navbar.tsx`: client component, `h-14` row split into left/center/right flex sections. Left section holds a ghost icon `Button` toggling `PanelLeftOpen`/`PanelLeftClose` based on an `isSidebarOpen` prop; toggling is driven by an `onToggleSidebar` callback prop (no internal state — state lives with whatever wires this in later). Right section left empty per spec. `border-surface-border` bottom border, `bg-surface` background.
+  - `components/editor/project-sidebar.tsx`: client component, `fixed inset-y-0 left-0` panel (so it overlays rather than participates in layout flow) that translates off-canvas with `-translate-x-full` / `translate-x-0` based on an `isOpen` prop, with an `onClose` callback for its own header close button. Header shows "Projects" + close button. Body uses shadcn `Tabs` ("My Projects" / "Shared"), both tabs rendering an empty-state placeholder string only (no mock data — none was specified). Footer has a full-width `Plus`-icon `New Project` button (no click behavior yet — dialog wiring is out of scope for this unit, see `context/feature-specs/04-project-dialogs.md`).
+  - Dialog pattern: no new component created. Verified the existing `components/ui/dialog.tsx` (protected foundation component, not modified) already styles `DialogContent`/`DialogTitle`/`DialogDescription`/`DialogFooter` through the semantic tokens (`bg-popover` → `--bg-elevated`, `text-popover-foreground` → `--text-primary`) wired up in `app/globals.css`, so it already satisfies "use existing color tokens" + "support title/description/footer actions" without building any concrete dialog instance.
+  - Verified: clean `tsc` type-check (same pre-existing stray global type-def error, unrelated) and clean `eslint` on `components/editor`.
+
 ## In Progress
 
 - None yet.
 
 ## Next Up
 
-- Add the next planned feature unit here.
+- `context/feature-specs/03-auth.md` and/or `context/feature-specs/04-project-dialogs.md` (editor home screen, Create/Rename/Delete Project dialogs built on top of the verified dialog pattern, sidebar item actions) — next feature units in the spec sequence.
 
 ## Open Questions
 
@@ -40,4 +46,4 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Session Notes
 
-- Add context needed to resume work in the next session.
+- `editor-navbar.tsx` and `project-sidebar.tsx` are standalone and not yet wired into any route (no `app/editor` page exists yet) — they take their open/toggle state as props with no internal state, ready to be composed once the editor shell page is built.
